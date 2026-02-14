@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Granted – Research Matching for Students</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Screen: Login / Signup -->
+  <main id="screen-auth" class="screen" data-screen="auth">
+    <div class="auth-card">
+      <h1 class="logo">Granted</h1>
+      <p class="auth-subtitle">Research Matching for Students</p>
+      <form id="auth-form" class="auth-form">
+        <div class="form-group">
+          <label for="auth-email">Email</label>
+          <input type="email" id="auth-email" required placeholder="you@university.edu" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="auth-password">Password</label>
+          <input type="password" id="auth-password" required placeholder="••••••••" minlength="8" autocomplete="current-password">
+        </div>
+        <p id="auth-error" class="auth-error" role="alert" hidden></p>
+        <div class="auth-actions">
+          <button type="submit" id="auth-submit" class="btn btn-primary btn-block">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-spinner" hidden aria-hidden="true"></span>
+          </button>
+          <p class="auth-toggle">New here? <button type="button" id="auth-switch" class="btn-link">Sign Up</button></p>
+        </div>
+      </form>
+      <p class="auth-divider">or</p>
+      <button type="button" class="btn btn-secondary btn-block" disabled>Continue with Google (demo)</button>
+    </div>
+  </main>
+
+  <!-- Screen: Profile Builder -->
+  <main id="screen-profile" class="screen screen-hidden" data-screen="profile">
+    <div class="form-container">
+      <header class="form-header">
+        <button type="button" id="profile-back" class="btn-icon" aria-label="Back">←</button>
+        <h2>Your Profile</h2>
+        <span class="step-indicator">Step 1 of 2</span>
+      </header>
+      <form id="profile-form">
+        <div class="form-group">
+          <label for="profile-interests">Research Interests <span class="required">*</span></label>
+          <div class="tag-input-wrapper">
+            <div id="interests-chips" class="chips"></div>
+            <input type="text" id="profile-interests" placeholder="Type and press Enter" autocomplete="off">
+          </div>
+          <p id="interests-error" class="field-error" hidden></p>
+        </div>
+        <div class="form-group">
+          <label for="profile-skills">Skills <span class="required">*</span></label>
+          <div class="tag-input-wrapper">
+            <div id="skills-chips" class="chips"></div>
+            <input type="text" id="profile-skills" placeholder="Type and press Enter" autocomplete="off">
+          </div>
+          <p id="skills-error" class="field-error" hidden></p>
+        </div>
+        <div class="form-group">
+          <label for="profile-publications">Publications (optional)</label>
+          <textarea id="profile-publications" rows="3" placeholder="Title, journal, year..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="profile-link">Links (optional)</label>
+          <div class="link-input-row">
+            <input type="url" id="profile-link" placeholder="https://github.com/...">
+            <button type="button" id="profile-add-link" class="btn btn-secondary">Add</button>
+          </div>
+          <div id="profile-links-list" class="links-list"></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-large">Continue to Upload →</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Screen: Upload -->
+  <main id="screen-upload" class="screen screen-hidden" data-screen="upload">
+    <div class="form-container">
+      <header class="form-header">
+        <button type="button" id="upload-back" class="btn-icon" aria-label="Back">←</button>
+        <h2>Upload Documents</h2>
+        <span class="step-indicator">Step 2 of 2</span>
+      </header>
+      <form id="upload-form">
+        <div class="form-group">
+          <label>Resume (required) <span class="required">*</span></label>
+          <div id="resume-dropzone" class="dropzone" role="button" tabindex="0">
+            <span class="dropzone-text">📄 Drag & drop PDF or click to upload</span>
+            <span class="dropzone-hint">Max 10MB</span>
+          </div>
+          <input type="file" id="resume-input" accept=".pdf,application/pdf" hidden>
+          <div id="resume-preview" class="file-preview file-preview-hidden"></div>
+          <p id="resume-error" class="field-error" hidden></p>
+        </div>
+        <div class="form-group">
+          <label>Publication PDFs (optional)</label>
+          <div id="pub-dropzone" class="dropzone dropzone-secondary" role="button" tabindex="0">
+            <span class="dropzone-text">📄 Add another PDF</span>
+          </div>
+          <input type="file" id="pub-input" accept=".pdf,application/pdf" hidden>
+          <div id="pub-previews" class="file-previews"></div>
+        </div>
+        <button type="submit" id="upload-submit" class="btn btn-primary btn-block btn-large">
+          <span class="btn-text">Find My Matches</span>
+          <span class="btn-spinner" hidden aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Screen: Matches -->
+  <main id="screen-matches" class="screen screen-hidden" data-screen="matches">
+    <header class="matches-header">
+      <h1 class="logo-small">Granted</h1>
+      <h2>Matches</h2>
+      <div class="header-actions">
+        <button type="button" id="matches-profile" class="btn btn-ghost">Profile</button>
+      </div>
+    </header>
+    <div class="matches-layout">
+      <aside class="matches-feed">
+        <div class="matches-toolbar">
+          <select id="matches-filter" aria-label="Filter matches">
+            <option value="all">All</option>
+            <option value="90+">90%+</option>
+            <option value="80+">80%+</option>
+            <option value="70+">70%+</option>
+          </select>
+          <select id="matches-sort" aria-label="Sort matches">
+            <option value="score">Best match</option>
+            <option value="name">Name</option>
+          </select>
+        </div>
+        <div id="matches-list" class="matches-list">
+          <!-- Match cards injected here -->
+        </div>
+        <div id="matches-loading" class="matches-loading matches-loading-hidden">
+          <div class="spinner"></div>
+          <p>Finding your best matches...</p>
+        </div>
+        <div id="matches-empty" class="empty-state empty-state-hidden">
+          <p class="empty-icon">🔍</p>
+          <h3>No matches yet</h3>
+          <p>Refine your profile or check back later.</p>
+          <button type="button" class="btn btn-secondary" id="matches-edit-profile">Edit profile</button>
+        </div>
+      </aside>
+      <aside class="matches-panel">
+        <div id="why-match" class="why-match">
+          <h3>Why this match</h3>
+          <div id="why-match-empty" class="why-match-empty">
+            <p>Select a match to see why it's a fit and ask questions.</p>
+          </div>
+          <div id="why-match-content" class="why-match-content why-match-content-hidden">
+            <div class="why-match-score" id="why-match-score"></div>
+            <ul id="why-match-reasons" class="why-match-reasons"></ul>
+            <div id="why-match-tags" class="why-match-tags"></div>
+            <p class="why-match-focus" id="why-match-focus"></p>
+          </div>
+        </div>
+        <div class="chat-section">
+          <h3>AI Assistant</h3>
+          <div id="chat-messages" class="chat-messages">
+            <p id="chat-placeholder" class="chat-placeholder">Select a match to ask questions.</p>
+          </div>
+          <div id="chat-typing" class="chat-typing chat-typing-hidden">Thinking...</div>
+          <div class="chat-input-wrapper">
+            <input type="text" id="chat-input" placeholder="Ask about this match..." disabled aria-label="Chat message">
+            <button type="button" id="chat-send" class="btn btn-primary" disabled aria-label="Send message">Send</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="js/data/dummy-matches.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/upload.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/matches.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

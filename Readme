@@ -1,1 +1,50 @@
-HI
+# Granted – Research Matching for Students
+
+Hackathon MVP: student flow for a research matching app. Built in pure HTML, CSS, and JavaScript.
+
+## Run locally
+
+1. Serve the project with any static file server, e.g.:
+   ```bash
+   python3 -m http.server 8080
+   ```
+2. Open http://localhost:8080 in your browser.
+
+## Student flow
+
+1. **Login/Signup** – Enter any email + password (8+ chars). Stored in localStorage.
+2. **Profile** – Add interests (tags), skills (tags), optional publications & links.
+3. **Upload** – Resume (PDF required), optional publication PDFs. Files stored in memory/localStorage.
+4. **Matches** – Browse match cards, filter/sort, select a match, ask the AI assistant questions.
+
+## Structure
+
+```
+Granted/
+├── index.html          # SPA shell
+├── css/
+│   ├── reset.css
+│   ├── variables.css
+│   └── main.css
+├── js/
+│   ├── app.js          # Router / screen switching
+│   ├── auth.js         # Mock login
+│   ├── profile.js      # Profile form + tags
+│   ├── upload.js       # PDF upload UI
+│   ├── matches.js      # Match cards, filters, side panel
+│   ├── chat.js         # AI chat (dummy responses)
+│   ├── utils.js        # Toast, formatFileSize, genId
+│   └── data/
+│       └── dummy-matches.js
+└── STUDENT_FLOW_SPEC.md
+```
+
+## Demo script (~3–4 min)
+
+1. Sign in with `demo@university.edu` / `password123`
+2. Add interests: ML, NLP, Systems. Skills: Python, PyTorch, C++
+3. Upload a PDF resume (drag & drop or click)
+4. Click **Find My Matches**
+5. Select a professor card → see "Why this match" + chat
+6. Ask: "Why is this a good fit?" – AI responds with match-specific answer
+7. Switch to another card → context updates
