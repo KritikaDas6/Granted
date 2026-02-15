@@ -95,6 +95,11 @@
     renderChat();
   }
 
+  function getMatchContext() {
+    var matches = typeof getDummyMatches === 'function' ? getDummyMatches() : [];
+    return matches.find(function (m) { return m.id === selectedMatchId; }) || null;
+  }
+
   function sendMessage(text) {
     if (!selectedMatchId || !text || !text.trim()) return;
 
@@ -125,7 +130,7 @@
         timestamp: new Date().toISOString()
       });
       setTyping(false);
-    }, 800 + Math.random() * 400);
+    }, 600 + Math.random() * 400);
   }
 
   function initChat() {

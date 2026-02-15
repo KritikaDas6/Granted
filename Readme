@@ -1,14 +1,30 @@
 # Granted – Research Matching for Students
 
-Hackathon MVP: student flow for a research matching app. Built in pure HTML, CSS, and JavaScript.
+Hackathon MVP: student flow for a research matching app. Built in pure HTML, CSS, and JavaScript. AI chat powered by MiniMax.
 
 ## Run locally
 
-1. Serve the project with any static file server, e.g.:
+### Option A: With AI chat (MiniMax)
+
+1. Install dependencies: `npm install`
+2. Create a `.env` file with your MiniMax API key:
    ```bash
-   python3 -m http.server 8080
+   MINIMAX_API_KEY=your_key_here
    ```
-2. Open http://localhost:8080 in your browser.
+   Get a key at [MiniMax Platform](https://platform.minimax.io/user-center/basic-information/interface-key).
+
+3. Start the server (serves frontend + API):
+   ```bash
+   npm start
+   ```
+4. Open http://localhost:3000
+
+### Option B: Frontend only (dummy AI)
+
+```bash
+python3 -m http.server 8080
+```
+Open http://localhost:8080. The chat will use canned responses (no real AI).
 
 ## Student flow
 
